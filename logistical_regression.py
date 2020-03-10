@@ -5,6 +5,7 @@ def g(x, t):
 	z = x.dot(t)
 	for i in z:
 		z[i] = 1/1 + math.exp(-z[i])
+	return z
 
 
 
