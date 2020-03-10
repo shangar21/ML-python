@@ -1,10 +1,9 @@
 import numpy as np
 import math
 
-def g(x, t):
-	z = x.dot(t)
-	for i in z:
-		z[i] = 1/1 + math.exp(-z[i])
+def g(x):
+	for i in x:
+		x[i] = 1/1 + math.exp(-x[i])
 	return z
 
 
@@ -24,12 +23,27 @@ dv = np.array()
 conv = False
 
 while not conv:
-	dv = (x.T.dot((g(x,t)) - y)
+	dv = (x.T.dot((g(x.dot(t))) - y)
 	t = t - (a/m)*(dv)
 	conv = np.vectorize(abs)(dv).sum() <0.0001
 
 
-print("conv!")
+clump_thickness = (int)(input("enter clump thickness: "))
+uniformity_cell_size = (int)(input("enter uniformity of cell size: "))
+cell_shape = (int)(input("enter uniformity of cell shape: "))
+adhesion = (int)(input("enter marginal adhesion: "))
+epithelial_cell_size = (int)(input("enter single epethelial cell size: "))
+nuclei = (int)(input("enter bare nuclei: "))
+chromatin = (int)(input("enter bland chromatin: "))
+nucleoli = (int)(input("enter normal nucleoli: "))
+mitosis = (int)(input("enter mitosis: "))
+
+test_results = [1, clump_thickness, uniformity_cell_size, cell_shape, adhesion, epithelial_cell_size, nuclei, chromatin, nucleoli, mitosis]
+
+prediction = g(test_results.dot(t))
+
+print(prediction)
+
 
 
 
