@@ -17,9 +17,9 @@ x = np.delete(x,0,axis=1)
 x = np.c_[np.ones(x.shape[0]), x]
 
 a = 0.5
-m = x.shape[1]
+m = x.shape[0]
 t = np.zeros(x.shape[1])
-dv = np.array()
+dv = []
 conv = False
 
 while not conv:
