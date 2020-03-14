@@ -2,8 +2,7 @@ import numpy as np
 import math
 
 def g(x):
-	for i in x:
-		x[i] = 1/1 + math.exp(-x[i])
+	z = 1/(1 + np.exp(-x))
 	return z
 
 
@@ -16,16 +15,18 @@ y = x[:, 0]
 x = np.delete(x,0,axis=1)
 x = np.c_[np.ones(x.shape[0]), x]
 
-a = 0.5
+a = 0.01
 m = x.shape[1]
 t = np.zeros(x.shape[1])
-dv = np.array()
+dv = np.array(t.shape)
 conv = False
 
-while not conv:
-	dv = (x.T.dot((g(x.dot(t))) - y)
+
+while (not conv):
+	dv = (x.T.dot((g(x.dot(t))) - y))
 	t = t - (a/m)*(dv)
 	conv = np.vectorize(abs)(dv).sum() <0.0001
+	print(t)
 
 
 clump_thickness = (int)(input("enter clump thickness: "))
