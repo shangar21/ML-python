@@ -37,7 +37,7 @@ epithelial_cell_size = (int)(input("enter single epethelial cell size: "))
 nuclei = (int)(input("enter bare nuclei: "))
 chromatin = (int)(input("enter bland chromatin: "))
 nucleoli = (int)(input("enter normal nucleoli: "))
-mitosis = (int)(input("enter mitosis: "))
+mitosis = (int)(input("enter mitosis:  "))
 
 test_results = [1, clump_thickness, uniformity_cell_size, cell_shape, adhesion, epithelial_cell_size, nuclei, chromatin, nucleoli, mitosis]
 
