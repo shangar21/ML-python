@@ -15,10 +15,9 @@ y = x[:, 0]
 x = np.delete(x,0,axis=1)
 x = np.c_[np.ones(x.shape[0]), x]
 
-a = 0.01
-m = x.shape[1]
+
 t = np.zeros(x.shape[1])
-dv = np.array(t.shape)
+
 conv = False
 
 
