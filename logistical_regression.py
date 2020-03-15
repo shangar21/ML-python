@@ -2,8 +2,7 @@ import numpy as np
 import math
 
 def g(x):
-	z = 1/(1 + np.exp(-x))
-	return z
+	return 1/(1 + np.exp(-x))
 
 
 
@@ -14,19 +13,18 @@ y = x[:, 0]
 
 x = np.delete(x,0,axis=1)
 x = np.c_[np.ones(x.shape[0]), x]
-
-
+a = 0.05
+m = x.shape[1]
 t = np.zeros(x.shape[1])
 
 conv = False
 
-
-while (not conv):
-	dv = (x.T.dot((g(x.dot(t))) - y))
-	t = t - (a/m)*(dv)
-	conv = np.vectorize(abs)(dv).sum() <0.0001
-	print(t)
-
+while not conv:
+	dv = x.T.dot(g(x.dot(t)) - y)
+	t = t - (a/m)*dv
+	conv = np.vectorize(abs)(dv).sum() <0.001
+	print(g(x.dot(t)))
+	
 
 clump_thickness = (int)(input("enter clump thickness: "))
 uniformity_cell_size = (int)(input("enter uniformity of cell size: "))
