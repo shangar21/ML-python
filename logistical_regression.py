@@ -42,9 +42,14 @@ test_results = [1, clump_thickness, uniformity_cell_size, cell_shape, adhesion, 
 test_results -= avg
 test_results /= 9
 
-prediction = round(g(test_results.dot(t)))
+prediction = (g(test_results.dot(t)))
 
-print(prediction)
+if prediction <= 0.4:
+	print("benign")
+elif prediction <= 0.8:
+	print("maybe malignant")
+else:
+	print("malignant")
 
 
 
