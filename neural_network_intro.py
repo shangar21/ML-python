@@ -26,16 +26,23 @@ class Net(nn.Module):
 # fetching data from built in data set from pytorch MNIST (handwritten digits)
 train = datasets.MNIST("", train=True, download=True, transform=transforms.Compose([transforms.ToTensor()])) 
 test = datasets.MNIST("", train=False, download=True, transform=transforms.Compose([transforms.ToTensor()])) 
+<<<<<<< HEAD
+=======
+
+>>>>>>> 00c51a5442762eaf1847979bc93c1de93be3f97a
 #loading data from fetched data using pytorch's data loader
 trainset = torch.utils.data.DataLoader(train, batch_size=10, shuffle=True)
 testset = torch.utils.data.DataLoader(test, batch_size=10, shuffle=True)
 
+<<<<<<< HEAD
 # for data in trainset:
 # 	break
 # X, y = data
 # print(X.shape)
 # print(X.view(-1, 28*28).shape)
 
+=======
+>>>>>>> 00c51a5442762eaf1847979bc93c1de93be3f97a
 net = Net()
 
 optimizer = optim.Adam(net.parameters(), lr=0.001)
@@ -47,7 +54,10 @@ for epoch in range(EPOCHS):
 		X, y = data
 		net.zero_grad()
 		output = net(X.view(-1, 28*28))
+<<<<<<< HEAD
 		print(output)
+=======
+>>>>>>> 00c51a5442762eaf1847979bc93c1de93be3f97a
 		loss = F.nll_loss(output, y)
 		loss.backward()
 		optimizer.step()
