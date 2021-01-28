@@ -69,7 +69,7 @@ class NN:
 		s = sum(s)
 		return cost + s 
 
-	def back(self, y, x):
+	def back(self, y, x, m):
 		delta_out = self.output_layer - y
 		delta_2 = np.multiply(self.weights[1].T.dot(delta_out), g_prime(self.activation_layer_1))
 		DELTA_2 = self.activation_layer_1.T.dot(delta_out[0])
@@ -81,10 +81,11 @@ class NN:
 x = np.array([1,2,3,4])
 y = 0
 net = NN(4,3,1)
-print(net.weights)
-net.forward(x)
-net.back(y,x)
-print(net.weights)
+
+for i in range(3):
+	net.forward(x)
+	net.back(y,x)
+
 net.forward(x)
 #net.back(y,x)
 print(net.output_layer)
