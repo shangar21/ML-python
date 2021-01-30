@@ -77,9 +77,22 @@ y_test = lb.transform(y_test)
 
 net = NN(5,4,3,3)
 
-for i in range(10000):
-	net.forward(np.insert(x_train[0], 0, 1))
-	net.backward(np.insert(x_train[0], 0, 1), y_train[0])
+for i in range(1000):
+	for i in range(len(x_train)):
+		net.forward(np.insert(x_train[i], 0, 1))
+		net.backward(np.insert(x_train[i], 0, 1), y_train[i])
 
-net.forward(np.insert(x_train[0], 0, 1))
-print(net.output_layer)
+count = 0
+
+for i in range(len(x_test)):
+	net.forward(np.insert(x_test[i], 0, 1))
+	hypothesis = net.output_layer
+	for j in range(len(hypothesis)):
+		if hypothesis[j] <= 0.01:
+			hypothesis[j] = 0
+		elif hypothesis[j] >= 0.9:
+			hypothesis[j] = 1
+	if np.array_equal(np.array(hypothesis), y_test[i]):
+		count+= 1	
+
+print(count/len(x_test))
