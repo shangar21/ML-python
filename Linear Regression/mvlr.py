@@ -25,12 +25,12 @@ while not converged:
 	converged = np.vectorize(lambda x: abs(x))(deriv).sum() < 0.000001
 
 
-converged = false
+# converged = False
 
-while(not converged):
-	deriv = W.T.dot(x.T.dot(x)) - y.T.dot(x)
-	W = W - mu * deriv
-	converged = np.vectorize(lambda x: abs(x))(derivative).sum() < 0.000001
+# while(not converged):
+# 	deriv = W.T.dot(x.T.dot(x)) - y.T.dot(x)
+# 	W = W - mu * deriv
+# 	converged = np.vectorize(lambda x: abs(x))(deriv).sum() < 0.000001
 
 
 print("Converged!")

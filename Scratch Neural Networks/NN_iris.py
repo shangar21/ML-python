@@ -20,8 +20,6 @@ class NN:
 	s2 = 0
 	s3 = 0
 	lr = 0
-	DELTA_HL_OUT = 0
-	DELTA_IN_HL = 0
 	weights = []
 	hidden_layer_1 = []
 	output_layer = []
@@ -43,23 +41,14 @@ class NN:
 	def backward(self, x_train, y_train):
 		output_error = y_train - self.output_layer
 		del_out = output_error*g_prime(self.output_layer)
-		del_hl = output_error.dot(self.weights[1].T)*g_prime(self.hidden_layer_1)
-
+		del_hl = output_error.dot(self.weights[1].T)*g_prime(self.hidden_layer_1).reshape(1,4)
 		self.weights[0] += self.lr*x_train.reshape(5,1).dot(del_hl.reshape(1,4))
 		self.weights[1] += self.lr*self.hidden_layer_1.reshape(4,1).dot(del_out.reshape(1, 3))
 
+	def cost(self, y_train):
+		MSE = (np.square(self.output_layer - y_train))
+		return (1/self.s1)*np.sum(MSE)
 
-	def adjust_weights(self, m):
- 		pass
-
-
- 	# def cost(self, x_train, y_train):
- 	# 	MSE = []
- 	# 	for i in range(len(x_train)):
- 	# 		self.forward(x_train)
- 	# 		MSE.append(np.square(self.output_layer - y_train[i]))
-
- 	# 	return (1/len(x_train))*np.sum(MSE)		
 
 
 data = datasets.load_iris()
@@ -88,7 +77,7 @@ for i in range(len(x_test)):
 	net.forward(np.insert(x_test[i], 0, 1))
 	hypothesis = net.output_layer
 	for j in range(len(hypothesis)):
-		if hypothesis[j] <= 0.01:
+		if hypothesis[j] <= 0.1:
 			hypothesis[j] = 0
 		elif hypothesis[j] >= 0.9:
 			hypothesis[j] = 1
