@@ -36,16 +36,18 @@ labels = label_binarize(df_labels.to_numpy(), classes=[i for i in range(len(uniq
 
 X_train, _, y_train, _ = train_test_split(df_data.to_numpy(), labels, train_size=0.999)
 
-net = Net(dimension=600, input_size=1, num_layers=1)
+clip_len = 40
+net = Net(dimension=clip_len, input_size=1, num_layers=1)
 net.to(device)
+
 optimizer = torch.optim.Adam(net.parameters(), lr=0.001)
 criterion = torch.nn.CrossEntropyLoss()
 
-EPOCHS = 2
+EPOCHS = 100
 
 for _ in range(EPOCHS):
     for i in tqdm(range(len(X_train))):
-        x = torch.tensor(X_train[i]).reshape(-1, 1).type(torch.float32).to(device)
+        x = torch.tensor(X_train[i]).reshape(-1, 1).type(torch.float32)[:40].to(device)
         optimizer.zero_grad()
         output = net(x)
         t = torch.tensor(y_train[i]).type(torch.float32).to(device)
