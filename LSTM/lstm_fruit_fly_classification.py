@@ -40,13 +40,16 @@ clip_len = 40
 net = Net(dimension=clip_len, input_size=1, num_layers=1)
 net.to(device)
 
-optimizer = torch.optim.Adam(net.parameters(), lr=0.001)
-criterion = torch.nn.CrossEntropyLoss()
+optimizer = torch.optim.Adam(net.parameters(), lr=0.0001)
+criterion = torch.nn.BCELoss()
 
-EPOCHS = 100
+EPOCHS = 1000
+
+X_train = X_train[:2]
 
 for _ in range(EPOCHS):
-    for i in tqdm(range(len(X_train))):
+    print(f"----------------------------- EPOCH {_} -----------------------------------")
+    for i in range(len(X_train)):
         x = torch.tensor(X_train[i]).reshape(-1, 1).type(torch.float32)[:40].to(device)
         optimizer.zero_grad()
         output = net(x)
@@ -55,12 +58,14 @@ for _ in range(EPOCHS):
         loss.backward()
         optimizer.step()
 
+
 correct = 0
 total = 0
 
 for i in tqdm(range(len(X_train))):
-    x = torch.tensor(X_train[i]).reshape(-1, 1).type(torch.float32).to(device)
+    x = torch.tensor(X_train[i]).reshape(-1, 1).type(torch.float32)[:40].to(device)
     output = torch.argmax(net(x))
+    print(net(x))
     correct += 1 if labels[i][output] == 1 else 0
     total += 1
 
