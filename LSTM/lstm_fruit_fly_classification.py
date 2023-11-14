@@ -19,6 +19,10 @@ class Net(torch.nn.Module):
         c = self.softmax(c)
         return c
 
+device = 'cuda' if torch.cuda.is_available() else 'cpu'
+
+print("Training on {}".format(device))
+
 data_train = arff.loadarff('/home/shangar21/Downloads/InsectSound/InsectSound_TRAIN.arff')
 data_test = arff.loadarff('/home/shangar21/Downloads/InsectSound/InsectSound_TEST.arff')
 
@@ -33,6 +37,7 @@ labels = label_binarize(df_labels.to_numpy(), classes=[i for i in range(len(uniq
 X_train, _, y_train, _ = train_test_split(df_data.to_numpy(), labels, train_size=0.999)
 
 net = Net(dimension=600, input_size=1, num_layers=1)
+net.to(device)
 optimizer = torch.optim.Adam(net.parameters(), lr=0.001)
 criterion = torch.nn.CrossEntropyLoss()
 
@@ -40,10 +45,10 @@ EPOCHS = 2
 
 for _ in range(EPOCHS):
     for i in tqdm(range(len(X_train))):
-        x = torch.tensor(X_train[i]).reshape(-1, 1).type(torch.float32)
+        x = torch.tensor(X_train[i]).reshape(-1, 1).type(torch.float32).to(device)
         optimizer.zero_grad()
         output = net(x)
-        t = torch.tensor(y_train[i]).type(torch.float32)
+        t = torch.tensor(y_train[i]).type(torch.float32).to(device)
         loss = criterion(output, t)
         loss.backward()
         optimizer.step()
@@ -52,7 +57,7 @@ correct = 0
 total = 0
 
 for i in tqdm(range(len(X_train))):
-    x = torch.tensor(X_train[i]).reshape(-1, 1).type(torch.float32)
+    x = torch.tensor(X_train[i]).reshape(-1, 1).type(torch.float32).to(device)
     output = torch.argmax(net(x))
     correct += 1 if labels[i][output] == 1 else 0
     total += 1
