@@ -45,7 +45,7 @@ criterion = torch.nn.BCELoss()
 
 EPOCHS = 1000
 
-X_train = X_train[:2]
+#X_train = X_train[:2]
 
 for _ in range(EPOCHS):
     print(f"----------------------------- EPOCH {_} -----------------------------------")
