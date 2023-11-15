@@ -45,25 +45,29 @@ criterion = torch.nn.BCELoss()
 
 EPOCHS = 1000
 
+running_loss = 0
+
 #X_train = X_train[:2]
 
 for _ in range(EPOCHS):
-    print(f"----------------------------- EPOCH {_} -----------------------------------")
-    for i in range(len(X_train)):
-        x = torch.tensor(X_train[i]).reshape(-1, 1).type(torch.float32)[:40].to(device)
+    for i in tqdm(range(len(X_train))):
+        x = torch.tensor(X_train[i]).reshape(-1, 1).type(torch.float32)[:clip_len].to(device)
         optimizer.zero_grad()
         output = net(x)
         t = torch.tensor(y_train[i]).type(torch.float32).to(device)
         loss = criterion(output, t)
+        running_loss += loss
         loss.backward()
         optimizer.step()
-
+    if _ % 20 == 19:
+        print(f"running loss: {running_loss}")
+        running_loss = 0
 
 correct = 0
 total = 0
 
 for i in tqdm(range(len(X_train))):
-    x = torch.tensor(X_train[i]).reshape(-1, 1).type(torch.float32)[:40].to(device)
+    x = torch.tensor(X_train[i]).reshape(-1, 1).type(torch.float32)[:clip_len].to(device)
     output = torch.argmax(net(x))
     print(net(x))
     correct += 1 if labels[i][output] == 1 else 0
